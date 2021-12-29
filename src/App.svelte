@@ -45,7 +45,7 @@
   {:else if $frogsArray.error}
     <div>Error!</div>
   {:else if $frogsArray.data}
-    <caption>Name of the frog and count must be separated by ;</caption>
+    <div>Name of the frog and count must be separated by ;</div>
     <input id="newFrogInputbox" />
     <button on:click={AddFrog}>Add frog</button>
     <button on:click={DeleteFrogByName}>Delete frogs by name</button>

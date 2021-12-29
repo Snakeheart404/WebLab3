@@ -26,7 +26,7 @@
 
   const AddFrog = async () => {
     let newFrogsArr = [];
-    newFrogsArr = document.getElementById("newFrogInputbox").value.split(" ");
+    newFrogsArr = document.getElementById("newFrogInputbox").value.split(";");
     if (newFrogsArr[1] < 0) return;
     await http.startExecuteMyMutation(
       Queries.InsertRecord(newFrogsArr[0], newFrogsArr[1])

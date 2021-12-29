@@ -36,7 +36,7 @@
   const DeleteFrogByName = async () => {
     let deleteFrog = document
       .getElementById("newFrogInputbox")
-      .value.split(" ")[0];
+      .value;
     await http.startExecuteMyMutation(Queries.DeleteByName(deleteFrog));
   };
 </script>

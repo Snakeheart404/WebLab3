@@ -21,7 +21,7 @@ export class Queries {
   }
     `;
 
-  static DeleteByName = (name) => `
+  static DeleteByName = name => `
   mutation MyMutation {
     delete_FrogsDB_frogs(where: {name: {_eq: "${name}"}}) {
       returning {
@@ -35,10 +35,10 @@ export class Queries {
 
   static SUBSCRIPTION_AllFrogs = gql`
     subscription MySubscription {
-  FrogsDB_frogs {
-    name
-    count
-  }
-}
+      FrogsDB_frogs {
+        name
+        count
+      }
+    }
   `;
 }

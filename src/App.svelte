@@ -34,9 +34,7 @@
   };
 
   const DeleteFrogByName = async () => {
-    let deleteFrog = document
-      .getElementById("newFrogInputbox")
-      .value;
+    let deleteFrog = document.getElementById("newFrogInputbox").value;
     await http.startExecuteMyMutation(Queries.DeleteByName(deleteFrog));
   };
 </script>
@@ -47,6 +45,7 @@
   {:else if $frogsArray.error}
     <div>Error!</div>
   {:else if $frogsArray.data}
+    <caption>Name of the frog and count must be separated by ;</caption>
     <input id="newFrogInputbox" />
     <button on:click={AddFrog}>Add frog</button>
     <button on:click={DeleteFrogByName}>Delete frogs by name</button>

@@ -32,7 +32,7 @@ class RequestHelper {
   async startExecuteMyMutation(operationsDoc) {
     const { errors, data } = await this.executeMyMutation(operationsDoc);
     if (errors) {
-      console.error(errors);
+      throw "Error!";
     }
     return data;
   }

@@ -4,6 +4,7 @@
   import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
   import { setClient, subscribe } from "svelte-apollo";
   import { WebSocketLink } from "@apollo/client/link/ws";
+  import Loader from "./components/Loader.svelte";
 
   function createApolloClient() {
     const wsLink = new WebSocketLink({
@@ -41,7 +42,7 @@
 
 <main>
   {#if $frogsArray.loading}
-    <div>loading ...</div>
+    <Loader />
   {:else if $frogsArray.error}
     <div>Error!</div>
   {:else if $frogsArray.data}

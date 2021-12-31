@@ -28,10 +28,16 @@
   const AddFrog = async () => {
     let newFrogsArr = [];
     newFrogsArr = document.getElementById("newFrogInputbox").value.split(";");
-    if (newFrogsArr[1] < 0) return;
-    await http.startExecuteMyMutation(
-      Queries.InsertRecord(newFrogsArr[0], newFrogsArr[1])
-    );
+    if (newFrogsArr[0] == 0 || newFrogsArr[1] == 0) return;
+    try {
+      await http.startExecuteMyMutation(
+        Queries.InsertRecord(newFrogsArr[0], newFrogsArr[1])
+      );
+    } catch {
+      document.getElementById("errorLabel").textContent = "Error";
+      return;
+    }
+    document.getElementById("errorLabel").textContent = "";
   };
 
   const DeleteFrogByName = async () => {
@@ -62,6 +68,7 @@
           <td>{frog.count}</td>
         </tr>
       {/each}
+      <p id="errorLabel" />
     </table>
   {/if}
 </main>

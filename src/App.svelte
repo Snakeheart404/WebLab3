@@ -68,8 +68,8 @@
           <td>{frog.count}</td>
         </tr>
       {/each}
-      <p id="errorLabel" />
     </table>
+    <p id="errorLabel" />
   {/if}
 </main>
 

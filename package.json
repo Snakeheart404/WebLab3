@@ -31,7 +31,8 @@
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0",
     "stylelint-config-svelte-roboleary": "^0.3.0",
-    "svelte": "^3.0.0"
+    "svelte": "^3.0.0",
+    "svelte-loading-spinners": "^0.1.7"
   },
   "dependencies": {
     "@apollo/client": "^3.5.5",

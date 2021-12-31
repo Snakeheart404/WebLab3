@@ -1,10 +1,10 @@
 <script>
   import http from "./helper/request-helper";
   import { Queries } from "./helper/requests";
+  import Loader from "./components/Loader.svelte";
   import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
   import { setClient, subscribe } from "svelte-apollo";
   import { WebSocketLink } from "@apollo/client/link/ws";
-  import Loader from "./components/Loader.svelte";
 
   function createApolloClient() {
     const wsLink = new WebSocketLink({

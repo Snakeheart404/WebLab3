@@ -56,7 +56,7 @@
     <input id="newFrogInputbox" />
     <button on:click={AddFrog}>Add frog</button>
     <button on:click={DeleteFrogByName}>Delete frogs by name</button>
-    <table>
+    <table border="1">
       <caption>Frogs</caption>
       <tr>
         <th>Name</th>

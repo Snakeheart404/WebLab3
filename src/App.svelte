@@ -1,9 +1,8 @@
 <script>
-  import http from "./helper/request-helper";
   import { Queries } from "./helper/requests";
   import Loader from "./components/Loader.svelte";
   import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
-  import { setClient, subscribe } from "svelte-apollo";
+  import { setClient, subscribe, mutation } from "svelte-apollo";
   import { WebSocketLink } from "@apollo/client/link/ws";
   import { errorMessage, loadersCount } from "./stores.js";
 
@@ -25,7 +24,6 @@
   const client = createApolloClient();
   setClient(client);
 
-
   const frogsArray = subscribe(Queries.SUBSCRIPTION_AllFrogs);
   const newFrogInfo = {};
   const addFrogQuery = mutation(Queries.InsertRecord);
@@ -44,21 +42,21 @@
     }
     try {
       await addFrogQuery({
-      variables: {
-                name: newFrogInfo.name,
-                count: newFrogInfo.count,
-      },
-    });
-    $errorMessage = "";
-  } catch (e) {
-    $errorMessage = `Error occurred: ${e.message}`;
-  } finally {
-    addFrogDisabled = false;
-    $loadersCount--;
-  }
+        variables: {
+          name: newFrogInfo.name,
+          count: newFrogInfo.count,
+        },
+      });
+      $errorMessage = "";
+    } catch (e) {
+      $errorMessage = `Error occurred: ${e.message}`;
+    } finally {
+      addFrogDisabled = false;
+      $loadersCount--;
+    }
   };
 
-  const DeleteFrogByName = async () => {
+  const RemoveFrogs = async () => {
     removeFrogDisabled = true;
     $loadersCount++;
     try {
@@ -85,7 +83,9 @@
     <input bind:value={newFrogInfo.name} placeholder="Name" />
     <input bind:value={newFrogInfo.count} placeholder="Count" />
     <button on:click={AddFrog} disabled={addFrogDisabled}>Add frog</button>
-    <button on:click={DeleteFrogByName} disabled={removeFrogDisabled}>Delete frogs by name</button>
+    <button on:click={RemoveFrogs} disabled={removeFrogDisabled}
+      >Delete frogs by name</button
+    >
     <table border="1">
       <caption>Frogs</caption>
       <tr>
@@ -109,27 +109,29 @@
 
 <style>
   :root {
-    --background: #f5f5f5;
+    --background: hsl(0deg 0% 96%);
   }
 
   .overlay {
-    width: 100vw;
-    height: 100%;
     position: fixed;
+    z-index: 0;
     top: 0;
     left: 0;
     display: flex;
+    width: 100vw;
+    height: 100%;
     align-items: center;
     justify-content: center;
-    z-index: 0;
   }
+
   .overlay .background {
+    z-index: -1;
     width: 100%;
     height: 100%;
     background-color: var(--background);
     opacity: 0.5;
-    z-index: -1;
   }
+
   main {
     padding: 0;
     margin: 0;

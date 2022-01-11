@@ -1,9 +1,18 @@
 import { gql } from "@apollo/client";
 
 export class Queries {
+  static AllRecords = () => `
+  query MyQuery {
+    FrogsDB_frogs {
+      count
+      name
+    }
+  }
+  `;
+
   static DeleteRecords = gql`
-    mutation MyMutation {
-      delete_frogs(where: { count: { _lte: 0 } }) {
+    mutation MyMutation($name: String) {
+      delete_FrogsDB_frogs(where: { name: { _eq: $name } }) {
         returning {
           name
           count
@@ -13,19 +22,17 @@ export class Queries {
   `;
 
   static InsertRecord = gql`
-  mutation MyMutation($name: String, $count: Int = "0") {
-    insert_frogs_one(object: {name: "${name}", count: ${count}}) {
-      {
+    mutation MyMutation($name: String, $count: Int = "0") {
+      insert_FrogsDB_frogs_one(object: { name: $name, count: $count }) {
         name
         count
       }
     }
-  }
-    `;
+  `;
 
   static SUBSCRIPTION_AllFrogs = gql`
     subscription MySubscription {
-      frogs {
+      FrogsDB_frogs {
         name
         count
       }

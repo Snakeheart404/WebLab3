@@ -8,7 +8,7 @@
 
   function createApolloClient() {
     const wsLink = new WebSocketLink({
-      uri: "wss://lab3withfrogs.herokuapp.com/v1/graphql",
+      uri: uri_from_env,
       options: {
         reconnect: true,
       },
@@ -32,11 +32,10 @@
   const AddFrog = async () => {
     addFrogDisabled = true;
     $loadersCount++;
-    let newFrogsArr = [];
     const { name, count } = newFrogInfo;
     if (!name || !count) {
       addFrogDisabled = false;
-      $errorMessage = "Surname, name and debt are required!";
+      $errorMessage = "Name and count are required!";
       $loadersCount--;
       return;
     }
@@ -59,8 +58,19 @@
   const RemoveFrogs = async () => {
     removeFrogDisabled = true;
     $loadersCount++;
+    let name = newFrogInfo.name;
+    if (!name) {
+      removeFrogDisabled = false;
+      $errorMessage = "Input frog`s name to delete";
+      $loadersCount--;
+      return;
+    }
     try {
-      await deleteRecordsQuery();
+      await deleteRecordsQuery({
+        variables: {
+          name: newFrogInfo.name,
+        },
+      });
       $errorMessage = "";
     } catch (e) {
       $errorMessage = `Error occurred: ${e.message}`;
@@ -75,10 +85,7 @@
   {#if $frogsArray.loading}
     <Loader />
   {:else if $frogsArray.error}
-    <div class="overlay">
-      <h1>Error:(</h1>
-      <div class="overlay background" />
-    </div>
+    <h1>Error: {$frogsArray.error.message}</h1>
   {:else if $frogsArray.data}
     <input bind:value={newFrogInfo.name} placeholder="Name" />
     <input bind:value={newFrogInfo.count} placeholder="Count" />
@@ -86,24 +93,29 @@
     <button on:click={RemoveFrogs} disabled={removeFrogDisabled}
       >Delete frogs by name</button
     >
-    <table border="1">
-      <caption>Frogs</caption>
-      <tr>
-        <th>Name</th>
-        <th>Count</th>
-      </tr>
-      {#each $frogsArray.data.frogs as frog (frog.id)}
+    {#if $frogsArray.data.FrogsDB_frogs.length != 0}
+      <table border="1">
+        <caption>Frogs</caption>
         <tr>
-          <td>{frog.name}</td>
-          <td>{frog.count}</td>
+          <th>Name</th>
+          <th>Count</th>
         </tr>
-      {/each}
-    </table>
+        {#each $frogsArray.data.FrogsDB_frogs as frog (frog.name)}
+          <tr>
+            <td>{frog.name}</td>
+            <td>{frog.count}</td>
+          </tr>
+        {/each}
+      </table>
+    {:else}
+      <h1>No frogs</h1>
+    {/if}
     <div class="errorLabel">{$errorMessage}</div>
     <div class="overlay" class:visible={!$loadersCount}>
       <Loader />
       <div class="overlay background" />
     </div>
+    <img src="img/cement.png" alt="не спрашивайте..." class="meme" />
   {/if}
 </main>
 
@@ -130,6 +142,57 @@
     height: 100%;
     background-color: var(--background);
     opacity: 0.5;
+  }
+
+  .visible {
+    visibility: hidden;
+  }
+
+  .meme {
+    position: fixed;
+    z-index: -10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-name: slab;
+  }
+
+  @keyframes slab {
+    0% {
+      top: 0;
+      left: 0;
+      animation-timing-function: ease-in;
+    }
+
+    25% {
+      top: 100%;
+      left: 0;
+      animation-timing-function: ease-in;
+    }
+
+    50% {
+      top: 100%;
+      left: 100%;
+      animation-timing-function: ease-in;
+      transform: transform(100%, 100%);
+    }
+
+    75% {
+      top: 0%;
+      left: 100%;
+      animation-timing-function: ease-in;
+      transform: transform(100%, 100%);
+    }
+
+    100% {
+      top: 0%;
+      left: 0%;
+      animation-timing-function: ease-in;
+      transform: transform(100%, 0);
+    }
   }
 
   main {

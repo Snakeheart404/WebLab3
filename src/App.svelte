@@ -121,7 +121,7 @@
 
 <style>
   :root {
-    --background: hsl(0deg 0% 96%);
+    --background: hsl(0deg 0% 100%);
   }
 
   .overlay {

@@ -11,8 +11,8 @@ export class Queries {
   `;
 
   static DeleteRecords = gql`
-    mutation MyMutation($name: String) {
-      delete_FrogsDB_frogs(where: { name: { _eq: $name } }) {
+    mutation MyMutation($frogID: uuid) {
+      delete_FrogsDB_frogs(where: { id: { _eq: $frogID } }) {
         returning {
           name
           count

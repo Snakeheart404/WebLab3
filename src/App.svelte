@@ -55,20 +55,13 @@
     }
   };
 
-  const RemoveFrogs = async () => {
+  const RemoveFrogs = async id => {
     removeFrogDisabled = true;
     $loadersCount++;
-    let name = newFrogInfo.name;
-    if (!name) {
-      removeFrogDisabled = false;
-      $errorMessage = "Input frog`s name to delete";
-      $loadersCount--;
-      return;
-    }
     try {
       await deleteRecordsQuery({
         variables: {
-          name: newFrogInfo.name,
+          frogID: id,
         },
       });
       $errorMessage = "";
@@ -90,20 +83,25 @@
     <input bind:value={newFrogInfo.name} placeholder="Name" />
     <input bind:value={newFrogInfo.count} placeholder="Count" />
     <button on:click={AddFrog} disabled={addFrogDisabled}>Add frog</button>
-    <button on:click={RemoveFrogs} disabled={removeFrogDisabled}
-      >Delete frogs by name</button
-    >
+
     {#if $frogsArray.data.FrogsDB_frogs.length != 0}
       <table border="1">
         <caption>Frogs</caption>
         <tr>
           <th>Name</th>
           <th>Count</th>
+          <th>Deletion</th>
         </tr>
         {#each $frogsArray.data.FrogsDB_frogs as frog (frog.id)}
           <tr>
             <td>{frog.name}</td>
             <td>{frog.count}</td>
+            <td
+              ><button
+                on:click={RemoveFrogs(frog.id)}
+                disabled={removeFrogDisabled}>Delete</button
+              ></td
+            >
           </tr>
         {/each}
       </table>

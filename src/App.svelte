@@ -39,6 +39,12 @@
       $loadersCount--;
       return;
     }
+    if (count < 0) {
+      addFrogDisabled = false;
+      $errorMessage = "Count must be >=0!";
+      $loadersCount--;
+      return;
+    }
     try {
       await addFrogQuery({
         variables: {

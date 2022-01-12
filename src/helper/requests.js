@@ -24,6 +24,7 @@ export class Queries {
   static InsertRecord = gql`
     mutation MyMutation($name: String, $count: Int = "0") {
       insert_FrogsDB_frogs_one(object: { name: $name, count: $count }) {
+        id
         name
         count
       }
@@ -33,6 +34,7 @@ export class Queries {
   static SUBSCRIPTION_AllFrogs = gql`
     subscription MySubscription {
       FrogsDB_frogs {
+        id
         name
         count
       }

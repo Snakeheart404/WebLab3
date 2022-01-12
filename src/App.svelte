@@ -100,7 +100,7 @@
           <th>Name</th>
           <th>Count</th>
         </tr>
-        {#each $frogsArray.data.FrogsDB_frogs as frog (frog.name)}
+        {#each $frogsArray.data.FrogsDB_frogs as frog (frog.id)}
           <tr>
             <td>{frog.name}</td>
             <td>{frog.count}</td>

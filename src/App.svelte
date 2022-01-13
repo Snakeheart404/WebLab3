@@ -1,10 +1,12 @@
 <script>
   import { Queries } from "./helper/requests";
   import Loader from "./components/Loader.svelte";
+  import LoaderAdd from "./components/LoaderAdd.svelte";
+  import LoaderDelete from "./components/LoaderDelete.svelte";
   import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
   import { setClient, subscribe, mutation } from "svelte-apollo";
   import { WebSocketLink } from "@apollo/client/link/ws";
-  import { errorMessage, loadersCount } from "./stores.js";
+  import { errorMessage, loaderAddCount, loaderDeleteCount } from "./stores.js";
 
   let online;
 
@@ -32,7 +34,7 @@
 
   const AddFrog = async () => {
     try {
-      $loadersCount++;
+      $loaderAddCount++;
       const { name, count } = newFrogInfo;
       if (!name || !count) {
         throw Error("Name and count are required!");
@@ -50,13 +52,13 @@
     } catch (e) {
       $errorMessage = `Error occurred: ${e.message}`;
     } finally {
-      $loadersCount--;
+      $loaderAddCount--;
     }
   };
 
   const RemoveFrogs = async id => {
     try {
-      $loadersCount++;
+      $loaderDeleteCount++;
       await deleteRecordsQuery({
         variables: {
           frogID: id,
@@ -66,7 +68,7 @@
     } catch (e) {
       $errorMessage = `Error occurred: ${e.message}`;
     } finally {
-      $loadersCount--;
+      $loaderDeleteCount--;
     }
   };
 </script>
@@ -75,8 +77,12 @@
 
 <main>
   {#if online}
-    {#if $frogsArray.loading || $loadersCount}
+    {#if $frogsArray.loading}
       <Loader />
+    {:else if $loaderAddCount}
+      <LoaderAdd />
+    {:else if $loaderDeleteCount}
+      <LoaderDelete />
     {:else if $frogsArray.error}
       <h1>Error: {$frogsArray.error.message}</h1>
     {:else if $frogsArray.data}

@@ -3,9 +3,9 @@
 </script>
 
 <div class="loader">
-  <Circle color="rgb(155 155 155)" />
+  <Circle color="#f44336" />
 </div>
-<div><h1>Loading...</h1></div>
+<div><h1>Deleting frog...</h1></div>
 
 <style>
   :root {

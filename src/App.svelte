@@ -30,22 +30,16 @@
   const deleteRecordsQuery = mutation(Queries.DeleteRecords);
 
   const AddFrog = async () => {
-    addFrogDisabled = true;
-    $loadersCount++;
-    const { name, count } = newFrogInfo;
-    if (!name || !count) {
-      addFrogDisabled = false;
-      $errorMessage = "Name and count are required!";
-      $loadersCount--;
-      return;
-    }
-    if (count < 0) {
-      addFrogDisabled = false;
-      $errorMessage = "Count must be >=0!";
-      $loadersCount--;
-      return;
-    }
     try {
+      addFrogDisabled = true;
+      $loadersCount++;
+      const { name, count } = newFrogInfo;
+      if (!name || !count) {
+        throw Error("Name and count are required!");
+      }
+      if (count < 0) {
+        throw Error("Count must be >=0!");
+      }
       await addFrogQuery({
         variables: {
           name: newFrogInfo.name,
@@ -119,7 +113,6 @@
       <Loader />
       <div class="overlay background" />
     </div>
-    <img src="img/cement.png" alt="не спрашивайте..." class="meme" />
   {/if}
 </main>
 
@@ -150,53 +143,6 @@
 
   .visible {
     visibility: hidden;
-  }
-
-  .meme {
-    position: fixed;
-    z-index: -10;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    animation-name: slab;
-  }
-
-  @keyframes slab {
-    0% {
-      top: 0;
-      left: 0;
-      animation-timing-function: ease-in;
-    }
-
-    25% {
-      top: 100%;
-      left: 0;
-      animation-timing-function: ease-in;
-    }
-
-    50% {
-      top: 100%;
-      left: 100%;
-      animation-timing-function: ease-in;
-      transform: transform(100%, 100%);
-    }
-
-    75% {
-      top: 0%;
-      left: 100%;
-      animation-timing-function: ease-in;
-      transform: transform(100%, 100%);
-    }
-
-    100% {
-      top: 0%;
-      left: 0%;
-      animation-timing-function: ease-in;
-      transform: transform(100%, 0);
-    }
   }
 
   main {

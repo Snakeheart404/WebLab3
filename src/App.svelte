@@ -89,7 +89,6 @@
       <input bind:value={newFrogInfo.name} placeholder="Name" />
       <input bind:value={newFrogInfo.count} placeholder="Count" />
       <button on:click={AddFrog}>Add frog</button>
-
       {#if $frogsArray.data.FrogsDB_frogs.length != 0 && $frogsArray.data.FrogsDB_frogs}
         <table border="1">
           <caption>Frogs</caption>

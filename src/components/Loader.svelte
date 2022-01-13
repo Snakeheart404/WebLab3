@@ -10,7 +10,7 @@
   :root {
     --background-loader: rgb(255 255 255 / 50%);
   }
-  
+
   .loader {
     position: absolute;
     top: 0;

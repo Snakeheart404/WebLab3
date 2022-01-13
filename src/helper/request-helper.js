@@ -33,12 +33,10 @@ class RequestHelper {
   }
 
   async startExecuteMyMutation(operationsDoc) {
-    loadersCount.update(n => n + 1);
     const { errors, data } = await this.executeMyMutation(operationsDoc);
     if (errors) {
       throw new Error(errors.message.join("\n"));
     }
-    loadersCount.update(n => n - 1);
     return data;
   }
 }

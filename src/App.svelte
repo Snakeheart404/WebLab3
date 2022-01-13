@@ -20,7 +20,6 @@
     });
   }
 
-  let addFrogDisabled, removeFrogDisabled;
   const client = createApolloClient();
   setClient(client);
 
@@ -31,7 +30,7 @@
 
   const AddFrog = async () => {
     try {
-      addFrogDisabled = true;
+      $loadersCount++;
       const { name, count } = newFrogInfo;
       if (!name || !count) {
         throw Error("Name and count are required!");
@@ -49,13 +48,13 @@
     } catch (e) {
       $errorMessage = `Error occurred: ${e.message}`;
     } finally {
-      addFrogDisabled = false;
+      $loadersCount--;
     }
   };
 
   const RemoveFrogs = async id => {
-    removeFrogDisabled = true;
     try {
+      $loadersCount++;
       await deleteRecordsQuery({
         variables: {
           frogID: id,
@@ -65,20 +64,20 @@
     } catch (e) {
       $errorMessage = `Error occurred: ${e.message}`;
     } finally {
-      removeFrogDisabled = false;
+      $loadersCount--;
     }
   };
 </script>
 
 <main>
-  {#if $frogsArray.loading}
+  {#if $frogsArray.loading || $loadersCount}
     <Loader />
   {:else if $frogsArray.error}
     <h1>Error: {$frogsArray.error.message}</h1>
   {:else if $frogsArray.data}
     <input bind:value={newFrogInfo.name} placeholder="Name" />
     <input bind:value={newFrogInfo.count} placeholder="Count" />
-    <button on:click={AddFrog} disabled={addFrogDisabled}>Add frog</button>
+    <button on:click={AddFrog}>Add frog</button>
 
     {#if $frogsArray.data.FrogsDB_frogs.length != 0 && $frogsArray.data.FrogsDB_frogs}
       <table border="1">
@@ -92,12 +91,7 @@
           <tr>
             <td>{frog.name}</td>
             <td>{frog.count}</td>
-            <td
-              ><button
-                on:click={RemoveFrogs(frog.id)}
-                disabled={removeFrogDisabled}>Delete</button
-              ></td
-            >
+            <td><button on:click={RemoveFrogs(frog.id)}>Delete</button></td>
           </tr>
         {/each}
       </table>
@@ -105,18 +99,10 @@
       <h1>No frogs</h1>
     {/if}
     <div class="errorLabel">{$errorMessage}</div>
-    <div class="overlay" class:visible={!$loadersCount}>
-      <Loader />
-      <div class="overlay background" />
-    </div>
   {/if}
 </main>
 
 <style>
-  .visible {
-    visibility: hidden;
-  }
-
   main {
     padding: 0;
     margin: 0;

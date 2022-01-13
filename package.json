@@ -7,7 +7,7 @@
     "dev": "rollup -c -w",
     "start": "sirv public --no-clear",
     "eslint:fix": "eslint . --fix --ignore-path .gitignore",
-    "eslint:check": "eslint .",
+    "eslint:check": "eslint . --ignore-path .gitignore",
     "format:fix": "prettier --write . --ignore-path .gitignore",
     "format:check": "prettier --check . --ignore-path .gitignore",
     "stylelint:fix": "stylelint \"**/*.svelte\" --fix --ignore-path .gitignore",
@@ -32,15 +32,14 @@
     "rollup-plugin-terser": "^7.0.0",
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0",
-    "stylelint-config-svelte-roboleary": "^0.3.0",
-    "svelte": "^3.0.0",
-    "svelte-loading-spinners": "^0.1.7"
+    "stylelint-config-svelte-roboleary": "^0.3.0"
   },
   "dependencies": {
+    "svelte": "^3.0.0",
+    "svelte-loading-spinners": "^0.1.7",
     "@apollo/client": "^3.5.5",
     "graphql": "^16.0.1",
     "sirv-cli": "^1.0.0",
-    "stylelint-config-recommended-scss": "^5.0.2",
     "subscriptions-transport-ws": "^0.11.0",
     "svelte-apollo": "^0.4.0"
   }

@@ -32,7 +32,6 @@
   const AddFrog = async () => {
     try {
       addFrogDisabled = true;
-      $loadersCount++;
       const { name, count } = newFrogInfo;
       if (!name || !count) {
         throw Error("Name and count are required!");
@@ -51,13 +50,11 @@
       $errorMessage = `Error occurred: ${e.message}`;
     } finally {
       addFrogDisabled = false;
-      $loadersCount--;
     }
   };
 
   const RemoveFrogs = async id => {
     removeFrogDisabled = true;
-    $loadersCount++;
     try {
       await deleteRecordsQuery({
         variables: {
@@ -68,7 +65,6 @@
     } catch (e) {
       $errorMessage = `Error occurred: ${e.message}`;
     } finally {
-      $loadersCount--;
       removeFrogDisabled = false;
     }
   };
@@ -84,7 +80,7 @@
     <input bind:value={newFrogInfo.count} placeholder="Count" />
     <button on:click={AddFrog} disabled={addFrogDisabled}>Add frog</button>
 
-    {#if $frogsArray.data.FrogsDB_frogs.length != 0}
+    {#if $frogsArray.data.FrogsDB_frogs.length != 0 && $frogsArray.data.FrogsDB_frogs}
       <table border="1">
         <caption>Frogs</caption>
         <tr>

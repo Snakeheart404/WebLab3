@@ -3,7 +3,7 @@
   import Loader from "./components/Loader.svelte";
   import LoaderAdd from "./components/LoaderAdd.svelte";
   import LoaderDelete from "./components/LoaderDelete.svelte";
-  import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+  import { ApolloClient, InMemoryCache } from "@apollo/client";
   import { setClient, subscribe, mutation } from "svelte-apollo";
   import { WebSocketLink } from "@apollo/client/link/ws";
   import { errorMessage, loaderAddCount, loaderDeleteCount } from "./stores.js";
@@ -89,7 +89,7 @@
       <input bind:value={newFrogInfo.name} placeholder="Name" />
       <input bind:value={newFrogInfo.count} placeholder="Count" />
       <button on:click={AddFrog}>Add frog</button>
-      {#if $frogsArray.data.FrogsDB_frogs.length != 0 && $frogsArray.data.FrogsDB_frogs}
+      {#if $frogsArray.data.FrogsDB_frogs?.length}
         <table border="1">
           <caption>Frogs</caption>
           <tr>
